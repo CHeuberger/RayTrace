@@ -43,7 +43,14 @@ public class Transform {
     }
     
     public Transform rotateY(double alpha) {
-        // TODO
+        var s = Math.sin(alpha);
+        var c = Math.cos(alpha);
+        for (var i = 0; i < rotation.length; i++) {
+            var x = c * rotation[i][X] + s * rotation[i][Z];
+            var z = c * rotation[i][Z] - s * rotation[i][X];
+            rotation[i][X] = x;
+            rotation[i][Z] = z;
+        }
         return this;
     }
     

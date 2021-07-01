@@ -24,6 +24,11 @@ public abstract class Node {
         return this;
     }
     
+    public Node rotateY(double alpha) {
+        transform.rotateY(alpha);
+        return this;
+    }
+    
     public Node rotateZ(double alpha) {
         transform.rotateZ(alpha);
         return this;
