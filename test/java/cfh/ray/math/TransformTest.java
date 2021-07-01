@@ -8,76 +8,71 @@ class TransformTest {
 
     @Test
     void testTransform() {
-        var test = new Transform();
+        var transform = new Transform();
+        var ray = new Ray(new Vector(1, 0, 0), new Vector(0, 1, 0));
         
-        assertEquals(new Vector( 1,  0,  0), test.apply(new Vector( 1,  0,  0)));
-        assertEquals(new Vector( 0, -2,  0), test.apply(new Vector( 0, -2,  0)));
-        assertEquals(new Vector( 0,  0,  3), test.apply(new Vector( 0,  0,  3)));
+        assertEquals(ray, transform.reverse(ray));
     }
 
     @Test
     void testTransformTransform() {
-        var test = new Transform(new Transform().translate(1, 20, 300));
-        
-        assertEquals(new Vector( 2, 20, 300), test.apply(new Vector( 1,  0,  0)));
-        assertEquals(new Vector( 1, 18, 300), test.apply(new Vector( 0, -2,  0)));
-        assertEquals(new Vector( 1, 20, 303), test.apply(new Vector( 0,  0,  3)));
+        fail("Not yet implemented");
     }
 
     @Test
     void testTranslate() {
-        var zero = new Vector();
-        var test = new Transform();
+        var transform = new Transform();
+        var ray = new Ray(new Vector(1, 0, 0), new Vector(0, 1, 0));
         
-        assertEquals(new Vector(0, 0, 0), test.apply(zero));
-
-        test.translate(-10, 0, 0);
-        assertEquals(new Vector(-10, 0, 0), test.apply(zero));
-        assertEquals(new Vector(0, 0, 0), zero);
+        transform.translate(0, 0, 0);
+        assertEquals(ray, transform.reverse(ray));
         
-        test.translate(20, 20, 0);
-        assertEquals(new Vector(10, 20, 0), test.apply(zero));
-        assertEquals(new Vector(0, 0, 0), zero);
-        
-        test.translate(0, 0, 30);
-        assertEquals(new Vector(10, 20, 30), test.apply(zero));
-        assertEquals(new Vector(0, 0, 0), zero);
+        transform.translate(1, 2, 4);
+        var expected = new Ray(new Vector(0, -2, -4), ray.direction());
+        assertEquals(expected, transform.reverse(ray));
     }
 
     @Test
-    void testRotatePosX() {
-        var x = new Vector(10,  0,  0);
-        var y = new Vector( 0, 20,  0);
-        var z = new Vector( 0,  0, 30);
-        var test = new Transform();
+    void testRotateX() {
+        var transform = new Transform();
+        var ray = new Ray(new Vector(0, 0, 2), new Vector(0, 3, 0));
+        Ray test;
         
-        test.rotatePosX(0);
-        assertEquals(x, test.apply(x));
-        assertEquals(y, test.apply(y));
-        assertEquals(z, test.apply(z));
+        transform.rotateX(0);
+        assertEquals(ray, transform.reverse(ray));
         
-        test.rotatePosX(Math.PI/2);
-        assertEquals(x, test.apply(x));
-        assertEquals(new Vector(0, 0, 20).toString(), test.apply(y).toString());
-        assertEquals(new Vector(0, -30, 0).toString(), test.apply(z).toString());
-
-        assertEquals(new Vector(10,  0,  0), x);
-        assertEquals(new Vector( 0, 20,  0), y);
-        assertEquals(new Vector( 0,  0, 30), z);
+        transform.rotateX(Math.PI/2);
+        test = transform.reverse(ray);
+        assertEquals( 0, test.position().x(), 1e-4);
+        assertEquals( 2, test.position().y(), 1e-4);
+        assertEquals( 0, test.position().z(), 1e-4);
+        assertEquals( 0, test.direction().x(), 1e-4);
+        assertEquals( 0, test.direction().y(), 1e-4);
+        assertEquals(-3, test.direction().z(), 1e-4);
+        
+        transform.rotateX(Math.PI/2);
+        test = transform.reverse(ray);
+        assertEquals( 0, test.position().x(), 1e-4);
+        assertEquals( 0, test.position().y(), 1e-4);
+        assertEquals(-2, test.position().z(), 1e-4);
+        assertEquals( 0, test.direction().x(), 1e-4);
+        assertEquals(-3, test.direction().y(), 1e-4);
+        assertEquals( 0, test.direction().z(), 1e-4);
     }
 
     @Test
-    void testRotatePosY() {
+    void testRotateY() {
         fail("Not yet implemented");
     }
 
     @Test
-    void testRotatePosZ() {
+    void testRotateZ() {
         fail("Not yet implemented");
     }
-
+    
     @Test
-    void testAply() {
-        // tested by other methods
+    void testReverse() {
+        // TODO tested above ?
+        fail("Not yet implemented");
     }
 }

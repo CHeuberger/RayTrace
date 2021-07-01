@@ -2,7 +2,7 @@ package cfh.ray.model.csg;
 
 import java.util.Objects;
 
-import cfh.ray.math.Vector;
+import cfh.ray.math.Ray;
 
 public class Union extends Node {
 
@@ -15,9 +15,9 @@ public class Union extends Node {
     }
     
     @Override
-    protected Hit traceNode(Vector position, Vector ray) {
-        var hit1 = node1.trace(position, ray);
-        var hit2 = node2.trace(position, ray);
+    protected Hit traceNode(Ray ray) {
+        var hit1 = node1.trace(ray);
+        var hit2 = node2.trace(ray);
         if (hit1 == null) {
             return hit2;
         }

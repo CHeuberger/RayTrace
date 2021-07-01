@@ -10,6 +10,7 @@ import java.util.Objects;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import cfh.ray.math.Ray;
 import cfh.ray.math.Vector;
 
 public class Camera extends JPanel {
@@ -86,16 +87,14 @@ public class Camera extends JPanel {
         protected Void doInBackground() throws Exception {
             var w = image.getWidth() / 2;
             var h = image.getHeight() / 2;
-            var um = up.size();
-            var rm = right.size();
             for (var y = -h; y < h; y++) {
                 var du = up.mult((double)y/h);
                 for (var x = -w; x < w; x++) {
                     var dr = right.mult((double)x/w);
-                    var ray = direction.add(du).add(dr);
+                    var dir = direction.add(du).add(dr);
 //                    System.out.println(position + "    " + ray);
-                    var rgb = model.trace(position, ray);
-                    image.setRGB(w+x, h+y, rgb);
+                    var rgb = model.trace(new Ray(position, dir));
+                    image.setRGB(w+x, h-y-1, rgb);
                 }
                 publish(EMPTY);
             }

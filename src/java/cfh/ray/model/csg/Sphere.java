@@ -1,31 +1,29 @@
 package cfh.ray.model.csg;
 
-import cfh.ray.math.Vector;
+import cfh.ray.math.Ray;
 
 public class Sphere extends Node {
 
     @Override
-    protected Hit traceNode(Vector position, Vector ray) {
-        var t = analytic(position, ray);
+    protected Hit traceNode(Ray ray) {
+        var t = analytic(ray);
         
         // TODO Auto-generated method stub
         switch (t.length) {
             case 2:
-                var u = ray.size();
+                var u = ray.direction().size();
                 var s = (t[1]-t[0]) * u / 2;
                 var c = (int) Math.min(s * 255, 255);
                 return new Hit(t[0], c * 0x010101);
-            case 1:
-                return new Hit(t[0], -1);
             default:
                 return null;
         }
     }
 
-    static double[] analytic(Vector position, Vector ray) {
-        var a = ray.dot(ray);
-        var b = 2 * ray.dot(position);
-        var c = position.dot(position) - 1;
+    static double[] analytic(Ray ray) {
+        var a = ray.direction().dot(ray.direction());
+        var b = 2 * ray.direction().dot(ray.position());
+        var c = ray.position().dot(ray.position()) - 1;
         return solve(a, b, c);
     }
     

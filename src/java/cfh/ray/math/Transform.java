@@ -1,92 +1,74 @@
 package cfh.ray.math;
 
-import java.util.Formatter;
-
 public class Transform {
 
-    private final double[][] matrix = {
-            {1, 0, 0, 0},
-            {0, 1, 0, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 1} };
+    private static final int X = 0;
+    private static final int Y = 1;
+    private static final int Z = 2;
+    
+    private final double[] translation = {0, 0, 0};
+    private final double[][] rotation = {
+            {1, 0, 0},
+            {0, 1, 0},
+            {0, 0, 1},
+    };
     
     public Transform() {
     }
     
     public Transform(Transform other) {
-        for (var i = 0; i < 4; i++) {
-            for (var j = 0; j < 4; j++) {
-                this.matrix[i][j] = other.matrix[i][j];
-            }
+        System.arraycopy(other.translation, 0, this.translation, 0, other.translation.length);
+        for (var i = 0; i < other.rotation.length; i++) {
+            System.arraycopy(other.translation, 0, this.translation, 0, other.translation.length);
         }
     }
     
     public Transform translate(double x, double y, double z) {
-        matrix[0][3] += x;
-        matrix[1][3] += y;
-        matrix[2][3] += z;
+        translation[X] += x;
+        translation[Y] += y;
+        translation[Z] += z;
         return this;
     }
     
-    public Transform rotatePosX(double alpha) {
+    public Transform rotateX(double alpha) {
         var s = Math.sin(alpha);
         var c = Math.cos(alpha);
-        for (var i = 0; i < 4; i++) {
-            var v1 = c * matrix[i][1] + s * matrix[i][2];
-            var v2 = c * matrix[i][2] - s * matrix[i][1];
-            matrix[i][1] = v1;
-            matrix[i][2] = v2;
+        for (var i = 0; i < rotation.length; i++) {
+            var v1 = c * rotation[i][Y] + s * rotation[i][Z];
+            var v2 = c * rotation[i][Z] - s * rotation[i][Y];
+            rotation[i][Y] = v1;
+            rotation[i][Z] = v2;
         }
         return this;
     }
     
-    public Transform rotatePosY(double alpha) {
+    public Transform rotateY(double alpha) {
         // TODO
         return this;
     }
     
-    public Transform rotatePosZ(double alpha) {
+    public Transform rotateZ(double alpha) {
         // TODO
         return this;
     }
-    
-    public Vector apply(Vector vector) {
-        var result = new Vector();
-        for (var i = 0; i < 4; i++) {
-            double v = 0;
-            for (var j = 0; j < 4; j++) {
-                v += matrix[i][j] * vector.values[j];
+
+    public Ray reverse(Ray ray) {
+        var p = ray.position().coords;
+        var d = ray.direction().coords;
+        var p1 = new double[p.length];
+        var d1 = new double[d.length];
+        for (var i = 0; i < rotation.length; i++) {
+            for (var j = 0; j < p.length; j++) {
+                p1[i] += p[j] * rotation[j][i];
+                d1[i] += d[j] * rotation[j][i];
             }
-            result.values[i] = v;
+            p1[i] -= translation[i];
         }
-        for (var i = 0; i < 4; i++) {
-            result.values[i] /= result.values[3];
-        }
-        return result;
+        return new Ray(new Vector(p1[X], p1[Y], p1[Z]), new Vector(d1[X], d1[Y], d1[Z]));
     }
-    
+
     @Override
     public String toString() {
-        String symbols= "⎡⎢⎣⎤⎥⎦";
-        try (var builder = new Formatter()) {
-            builder.format("%s ", symbols.charAt(0));
-            for (var j = 0; j < 4; j++) {
-                builder.format("%5.2f ", matrix[0][j]);
-            }
-            builder.format("%s%n", symbols.charAt(3));
-            for (var i = 1; i < 3; i++) {
-                builder.format("%s ", symbols.charAt(1));
-                for (var j = 0; j < 4; j++) {
-                    builder.format("%5.2f ", matrix[i][j]);
-                }
-                builder.format("%s%n", symbols.charAt(4));
-            }
-            builder.format("%s ", symbols.charAt(2));
-            for (var j = 0; j < 4; j++) {
-                builder.format("%5.2f ", matrix[3][j]);
-            }
-            builder.format("%s", symbols.charAt(5));
-            return builder.toString();
-        }
+        return translation + "\n" + rotation;
     }
 }

@@ -8,11 +8,10 @@ class VectorTest {
     
     @Test
     void testVector() {
-        var vector = new Vector();
-        
-        assertEquals(0, vector.x());
-        assertEquals(0, vector.y());
-        assertEquals(0, vector.z());
+        var zero = new Vector();
+        assertEquals(0, zero.x());
+        assertEquals(0, zero.y());
+        assertEquals(0, zero.z());
     }
 
     @Test
@@ -57,6 +56,16 @@ class VectorTest {
         assertEquals(7.0, new Vector(2, 3, 6).size());
     }
 
+    @Test
+    void testAddDoubleDoubleDouble() {
+        var vector = new Vector();
+        
+        assertEquals(new Vector(10, 0, 0), vector = vector.add(10, 0, 0));
+        assertEquals(new Vector(10, 200, 0), vector = vector.add(0, 200, 0));
+        assertEquals(new Vector(10, 200, 3_000), vector = vector.add(0, 0, 3_000));
+        assertEquals(new Vector(), vector.add(-10, -200, -3_000));
+    }
+    
     @Test
     void testAdd() {
         var vector = new Vector();

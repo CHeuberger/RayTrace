@@ -1,9 +1,9 @@
 package cfh.ray.gui;
 
-import cfh.ray.math.Vector;
+import cfh.ray.math.Ray;
 
 public interface Model {
 
-    int trace(Vector position, Vector ray);
+    int trace(Ray ray);
 
 }

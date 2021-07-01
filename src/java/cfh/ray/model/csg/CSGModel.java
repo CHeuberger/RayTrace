@@ -1,7 +1,7 @@
 package cfh.ray.model.csg;
 
 import cfh.ray.gui.Model;
-import cfh.ray.math.Vector;
+import cfh.ray.math.Ray;
 
 public class CSGModel implements Model {
 
@@ -12,9 +12,9 @@ public class CSGModel implements Model {
     }
     
     @Override
-    public int trace(Vector position, Vector ray) {
-        var hit = root.trace(position, ray);
-        return hit == null ? 0 : hit.rgb();
+    public int trace(Ray ray) {
+        var hit = root.trace(ray);
+        return hit == null || hit.t() <=0 ? 0 : hit.rgb();
     }
 
 }

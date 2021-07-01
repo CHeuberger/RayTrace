@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import cfh.ray.math.Ray;
 import cfh.ray.math.Vector;
 
 class SphereTest {
@@ -25,20 +26,20 @@ class SphereTest {
     @Test
     void testAnalytic() {
         var sphere = new Sphere();
-        assertArrayEquals(new double[] { }, sphere.analytic(new Vector(-5, 0, 0), new Vector(0, 1, 0)));
-        assertArrayEquals(new double[] { }, sphere.analytic(new Vector(-5, 0, 0), new Vector(0, 0, 1)));
-        assertArrayEquals(new double[] { }, sphere.analytic(new Vector(-5, 0, 0), new Vector(1, 0, 1)));
+        assertArrayEquals(new double[] { }, sphere.analytic(new Ray(new Vector(-5, 0, 0), new Vector(0, 1, 0))));
+        assertArrayEquals(new double[] { }, sphere.analytic(new Ray(new Vector(-5, 0, 0), new Vector(0, 0, 1))));
+        assertArrayEquals(new double[] { }, sphere.analytic(new Ray(new Vector(-5, 0, 0), new Vector(1, 0, 1))));
 
-        assertArrayEquals(new double[] {5}, sphere.analytic(new Vector(-5,  1,  0), new Vector(1, 0, 0)));
-        assertArrayEquals(new double[] {5}, sphere.analytic(new Vector(-5, -1,  0), new Vector(1, 0, 0)));
-        assertArrayEquals(new double[] {5}, sphere.analytic(new Vector(-5,  0,  1), new Vector(1, 0, 0)));
-        assertArrayEquals(new double[] {5}, sphere.analytic(new Vector(-5,  0, -1), new Vector(1, 0, 0)));
+        assertArrayEquals(new double[] {5}, sphere.analytic(new Ray(new Vector(-5,  1,  0), new Vector(1, 0, 0))));
+        assertArrayEquals(new double[] {5}, sphere.analytic(new Ray(new Vector(-5, -1,  0), new Vector(1, 0, 0))));
+        assertArrayEquals(new double[] {5}, sphere.analytic(new Ray(new Vector(-5,  0,  1), new Vector(1, 0, 0))));
+        assertArrayEquals(new double[] {5}, sphere.analytic(new Ray(new Vector(-5,  0, -1), new Vector(1, 0, 0))));
         
-        assertArrayEquals(new double[] {4, 6}, sphere.analytic(new Vector(-5, 0, 0), new Vector(1, 0, 0)));
-        assertArrayEquals(new double[] {2, 3}, sphere.analytic(new Vector(-5, 0, 0), new Vector(2, 0, 0)));
-        assertArrayEquals(new double[] {-1, 1}, sphere.analytic(new Vector(0, 0, 0), new Vector(1, 0, 0)));
-        assertArrayEquals(new double[] {-1, 1}, sphere.analytic(new Vector(0, 0, 0), new Vector(0, 1, 0)));
-        assertArrayEquals(new double[] {-1, 1}, sphere.analytic(new Vector(0, 0, 0), new Vector(0, 0, 1)));
+        assertArrayEquals(new double[] {4, 6}, sphere.analytic(new Ray(new Vector(-5, 0, 0), new Vector(1, 0, 0))));
+        assertArrayEquals(new double[] {2, 3}, sphere.analytic(new Ray(new Vector(-5, 0, 0), new Vector(2, 0, 0))));
+        assertArrayEquals(new double[] {-1, 1}, sphere.analytic(new Ray(new Vector(0, 0, 0), new Vector(1, 0, 0))));
+        assertArrayEquals(new double[] {-1, 1}, sphere.analytic(new Ray(new Vector(0, 0, 0), new Vector(0, 1, 0))));
+        assertArrayEquals(new double[] {-1, 1}, sphere.analytic(new Ray(new Vector(0, 0, 0), new Vector(0, 0, 1))));
     }
 
     @Test

@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 import cfh.ray.math.Vector;
 import cfh.ray.model.csg.CSGModel;
 import cfh.ray.model.csg.Sphere;
+import cfh.ray.model.csg.Union;
 
 public class Main {
 
@@ -21,8 +22,12 @@ public class Main {
     }
     
     private Model createModel() {
-        var sphere = switch (0) {
+        var sphere = switch (2) {
             case 0 -> new Sphere();
+            case 1 -> new Union(new Sphere(), new Sphere().translate(1, 0, 0));
+            case 2 -> new Union(new Sphere(), 
+                                new Union(new Sphere().translate(1, 0, 0), 
+                                          new Sphere().translate(0, 1, -0.7)));
             default -> throw new IllegalArgumentException("not yet implemented");
         };
         return new CSGModel(sphere);
@@ -30,8 +35,8 @@ public class Main {
     
     private void initGUI() {
         var camera = new Camera(model, 200, 200)
-            .position(new Vector(-2, 0, 0))
-            .direction(new Vector(1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));
+            .position(new Vector(0, 0, 2))
+            .direction(new Vector(0, 0, -1), new Vector(0, 1, 0), new Vector(1, 0, 0));
         
         var frame = new JFrame();
         frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);

@@ -1,17 +1,23 @@
 package cfh.ray.model.csg;
 
+import cfh.ray.math.Ray;
 import cfh.ray.math.Transform;
-import cfh.ray.math.Vector;
 
 public abstract class Node {
 
     private final Transform transform = new Transform();
     
-    public final Hit trace(Vector position, Vector ray) {
-        return traceNode(position, ray);
+    public final Hit trace(Ray ray) {
+        var rr = transform.reverse(ray);
+        return traceNode(rr);
     }
     
-    protected abstract Hit traceNode(Vector position, Vector ray);
+    protected abstract Hit traceNode(Ray ray);
+    
+    public Node translate(double x, double y, double z) {
+        transform.translate(x, y, z);
+        return this;
+    }
     
     @Override
     public String toString() {
