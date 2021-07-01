@@ -21,14 +21,17 @@ public class Main {
     }
     
     private Model createModel() {
-        var sphere = new Sphere();
+        var sphere = switch (0) {
+            case 0 -> new Sphere();
+            default -> throw new IllegalArgumentException("not yet implemented");
+        };
         return new CSGModel(sphere);
     }
     
     private void initGUI() {
         var camera = new Camera(model, 200, 200)
             .position(new Vector(-2, 0, 0))
-            .direction(new Vector(1.4, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));
+            .direction(new Vector(1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));
         
         var frame = new JFrame();
         frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);

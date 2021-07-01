@@ -7,11 +7,11 @@ public abstract class Node {
 
     private final Transform transform = new Transform();
     
-    public final int trace(Vector position, Vector ray) {
+    public final Hit trace(Vector position, Vector ray) {
         return traceNode(position, ray);
     }
     
-    protected abstract int traceNode(Vector position, Vector ray);
+    protected abstract Hit traceNode(Vector position, Vector ray);
     
     @Override
     public String toString() {

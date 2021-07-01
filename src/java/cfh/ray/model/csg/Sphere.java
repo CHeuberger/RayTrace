@@ -5,17 +5,20 @@ import cfh.ray.math.Vector;
 public class Sphere extends Node {
 
     @Override
-    protected int traceNode(Vector position, Vector ray) {
+    protected Hit traceNode(Vector position, Vector ray) {
         var t = analytic(position, ray);
         
         // TODO Auto-generated method stub
-        if (t.length == 2) {
-            var u = ray.size();
-            var s = (t[1]-t[0]) * u / 2;
-            var c = (int) Math.min(s * 255, 255);
-            return c * 0x010101;
-        } else {
-            return 0;
+        switch (t.length) {
+            case 2:
+                var u = ray.size();
+                var s = (t[1]-t[0]) * u / 2;
+                var c = (int) Math.min(s * 255, 255);
+                return new Hit(t[0], c * 0x010101);
+            case 1:
+                return new Hit(t[0], -1);
+            default:
+                return null;
         }
     }
 

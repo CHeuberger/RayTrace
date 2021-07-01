@@ -13,7 +13,8 @@ public class CSGModel implements Model {
     
     @Override
     public int trace(Vector position, Vector ray) {
-        return root.trace(position, ray);
+        var hit = root.trace(position, ray);
+        return hit == null ? 0 : hit.rgb();
     }
 
 }
