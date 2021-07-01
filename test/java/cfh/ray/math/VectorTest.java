@@ -75,6 +75,16 @@ class VectorTest {
         assertEquals(new Vector(10, 200, 3_000), vector = vector.add(new Vector(0, 0, 3_000)));
         assertEquals(new Vector(), vector.add(new Vector(-10, -200, -3_000)));
     }
+    
+    @Test
+    void testSub() {
+        var vector = new Vector();
+        
+        assertEquals(new Vector(-10, 0, 0), vector = vector.sub(new Vector(10, 0, 0)));
+        assertEquals(new Vector(-10, -200, 0), vector = vector.sub(new Vector(0, 200, 0)));
+        assertEquals(new Vector(-10, -200, -3_000), vector = vector.sub(new Vector(0, 0, 3_000)));
+        assertEquals(new Vector(), vector.sub(new Vector(-10, -200, -3_000)));
+    }
 
     @Test
     void testMult() {

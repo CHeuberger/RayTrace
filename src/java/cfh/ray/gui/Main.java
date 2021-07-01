@@ -22,10 +22,12 @@ public class Main {
     }
     
     private Model createModel() {
-        var sphere = switch (2) {
-            case 0 -> new Sphere();
-            case 1 -> new Union(new Sphere(), new Sphere().translate(1, 0, 0));
-            case 2 -> new Union(new Sphere(), 
+        var sphere = switch (21) {
+            case 10 -> new Sphere();
+            case 11 -> new Sphere().rotateZ(Math.PI/2);
+            case 20 -> new Union(new Sphere(), new Sphere().translate(1, 0, 0));
+            case 21 -> new Union(new Sphere(), new Sphere().rotateZ(Math.PI/2).translate(1, 0, 0));
+            case 30-> new Union(new Sphere(), 
                                 new Union(new Sphere().translate(1, 0, 0), 
                                           new Sphere().translate(0, 1, -0.7)));
             default -> throw new IllegalArgumentException("not yet implemented");

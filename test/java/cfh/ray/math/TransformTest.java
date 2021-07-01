@@ -35,7 +35,7 @@ class TransformTest {
     @Test
     void testRotateX() {
         var transform = new Transform();
-        var ray = new Ray(new Vector(0, 0, 2), new Vector(0, 3, 0));
+        var ray = new Ray(new Vector(0, 0, 2), new Vector(1, 3, 0));
         Ray test;
         
         transform.rotateX(0);
@@ -46,7 +46,7 @@ class TransformTest {
         assertEquals( 0, test.position().x(), 1e-4);
         assertEquals( 2, test.position().y(), 1e-4);
         assertEquals( 0, test.position().z(), 1e-4);
-        assertEquals( 0, test.direction().x(), 1e-4);
+        assertEquals( 1, test.direction().x(), 1e-4);
         assertEquals( 0, test.direction().y(), 1e-4);
         assertEquals(-3, test.direction().z(), 1e-4);
         
@@ -55,7 +55,7 @@ class TransformTest {
         assertEquals( 0, test.position().x(), 1e-4);
         assertEquals( 0, test.position().y(), 1e-4);
         assertEquals(-2, test.position().z(), 1e-4);
-        assertEquals( 0, test.direction().x(), 1e-4);
+        assertEquals( 1, test.direction().x(), 1e-4);
         assertEquals(-3, test.direction().y(), 1e-4);
         assertEquals( 0, test.direction().z(), 1e-4);
     }
@@ -67,7 +67,30 @@ class TransformTest {
 
     @Test
     void testRotateZ() {
-        fail("Not yet implemented");
+        var transform = new Transform();
+        var ray = new Ray(new Vector(2, 0, 0), new Vector(0, 3, 1));
+        Ray test;
+        
+        transform.rotateZ(0);
+        assertEquals(ray, transform.reverse(ray));
+        
+        transform.rotateZ(Math.PI/2);
+        test = transform.reverse(ray);
+        assertEquals( 0, test.position().x(), 1e-4);
+        assertEquals(-2, test.position().y(), 1e-4);
+        assertEquals( 0, test.position().z(), 1e-4);
+        assertEquals( 3, test.direction().x(), 1e-4);
+        assertEquals( 0, test.direction().y(), 1e-4);
+        assertEquals( 1, test.direction().z(), 1e-4);
+        
+        transform.rotateZ(Math.PI/2);
+        test = transform.reverse(ray);
+        assertEquals(-2, test.position().x(), 1e-4);
+        assertEquals( 0, test.position().y(), 1e-4);
+        assertEquals( 0, test.position().z(), 1e-4);
+        assertEquals( 0, test.direction().x(), 1e-4);
+        assertEquals(-3, test.direction().y(), 1e-4);
+        assertEquals( 1, test.direction().z(), 1e-4);
     }
     
     @Test

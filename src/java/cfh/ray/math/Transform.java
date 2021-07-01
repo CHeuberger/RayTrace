@@ -34,10 +34,10 @@ public class Transform {
         var s = Math.sin(alpha);
         var c = Math.cos(alpha);
         for (var i = 0; i < rotation.length; i++) {
-            var v1 = c * rotation[i][Y] + s * rotation[i][Z];
-            var v2 = c * rotation[i][Z] - s * rotation[i][Y];
-            rotation[i][Y] = v1;
-            rotation[i][Z] = v2;
+            var y = c * rotation[i][Y] + s * rotation[i][Z];
+            var z = c * rotation[i][Z] - s * rotation[i][Y];
+            rotation[i][Y] = y;
+            rotation[i][Z] = z;
         }
         return this;
     }
@@ -48,7 +48,14 @@ public class Transform {
     }
     
     public Transform rotateZ(double alpha) {
-        // TODO
+        var s = Math.sin(alpha);
+        var c = Math.cos(alpha);
+        for (var i = 0; i < rotation.length; i++) {
+            var x = c * rotation[i][X] + s * rotation[i][Y];
+            var y = c * rotation[i][Y] - s * rotation[i][X];
+            rotation[i][X] = x;
+            rotation[i][Y] = y;
+        }
         return this;
     }
 
@@ -59,10 +66,10 @@ public class Transform {
         var d1 = new double[d.length];
         for (var i = 0; i < rotation.length; i++) {
             for (var j = 0; j < p.length; j++) {
-                p1[i] += p[j] * rotation[j][i];
+                p1[i] += (p[j]-translation[j]) * rotation[j][i];
                 d1[i] += d[j] * rotation[j][i];
             }
-            p1[i] -= translation[i];
+//            p1[i] -= translation[i];
         }
         return new Ray(new Vector(p1[X], p1[Y], p1[Z]), new Vector(d1[X], d1[Y], d1[Z]));
     }

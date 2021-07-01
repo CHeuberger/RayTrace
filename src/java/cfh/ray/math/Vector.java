@@ -48,6 +48,14 @@ public class Vector {
         return result;
     }
     
+    public Vector sub(Vector other) {
+        var result = new Vector();
+        for (var i = 0; i < result.coords.length; i++) {
+            result.coords[i] = this.coords[i] - other.coords[i];
+        }
+        return result;
+    }
+    
     public Vector add(double x, double y, double z) {
         return new Vector(coords[X]+x, coords[Y]+y, coords[Z]+z);
     }
