@@ -12,18 +12,17 @@ import cfh.ray.model.csg.Union;
 public class Main {
 
     public static void main(String[] args) {
-        new Main();
+        SwingUtilities.invokeLater(new Main()::initGUI);
     }
     
     private final Model model;
     
     private Main() {
         model = createModel();
-        SwingUtilities.invokeLater(this::initGUI);
     }
     
     private Model createModel() {
-        var sphere = switch (231) {
+        var root = switch (231) {
             case 110 -> new Sphere();
             case 111 -> new Sphere().rotateZ(Math.PI/2);
             case 120 -> new Union(new Sphere(), new Sphere().translate(1, 0, 0));
@@ -43,11 +42,11 @@ public class Main {
             case 231 -> new Union(new Sphere(), new Cube().translate(0, 0, -0.7)).rotateY(0.8);
             default  -> throw new IllegalArgumentException("not yet implemented");
         };
-        return new CSGModel(sphere);
+        return new CSGModel(root);
     }
     
     private void initGUI() {
-        var camera = new Camera(model, 200, 200)
+        var camera = new Camera(model, 400, 400)
             .position(new Vector(0, 0, 2))
             .direction(new Vector(0, 0, -1), new Vector(0, 1, 0), new Vector(1, 0, 0));
         
